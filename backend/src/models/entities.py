@@ -28,8 +28,22 @@ class ControlStudy:
  monitoring_end:int
  smoothing:float=.2
  control_width:float=3
- lsl:float=19.95
- usl:float=20.05
+ lsl:float|None=19.95
+ usl:float|None=20.05
+ spec_segments:list[dict]=field(default_factory=list)
+ spec_revision:int=1
+ revised_at:str=''
+ revised_by:str=''
+ created_at:str=''
+@dataclass
+class StudyRevision:
+ id:str
+ study_id:str
+ revision:int
+ spec_segments:list[dict]
+ previous_spec_segments:list[dict]=field(default_factory=list)
+ comment:str=''
+ actor:str=''
  created_at:str=''
 @dataclass
 class ControlRun:
@@ -37,6 +51,7 @@ class ControlRun:
  study_id:str
  status:str='queued'
  result:dict[str,Any]=field(default_factory=dict)
+ study_snapshot:dict[str,Any]=field(default_factory=dict)
  error:str=''
  created_at:str=''
 @dataclass
